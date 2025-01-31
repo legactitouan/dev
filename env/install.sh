@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 XDG_CONFIG_HOME=$HOME/.config
 DEV_ENV=$HOME/dev/env
@@ -10,5 +10,8 @@ copy() {
 }
 
 copy $DEV_ENV/.zshrc $HOME/.zshrc
-copy $DEV_ENV/.zprofile $HOME/.zprofile
+copy $DEV_ENV/.zsh_profile $HOME/.zsh_profile
 copy $DEV_ENV/.config $XDG_CONFIG_HOME
+
+source ~/.zshrc
+source ~/.zsh_profile
