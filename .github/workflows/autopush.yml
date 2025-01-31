@@ -30,6 +30,6 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           
           git add .
-	  git commit  -m "Automated backup: $(date +'%Y-%m-%d %H:%M:%S')" || exit 0
+	  git commit -m "Automated backup: $(date +'%Y-%m-%d %H:%M:%S')" || exit 0
           git push origin main
 
