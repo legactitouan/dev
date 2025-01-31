@@ -1,9 +1,9 @@
-name: autopush  # Workflow name
+name: autopush  
 
 on:
   schedule:
-    - cron: "0 0 * * 0"  # Runs every Sunday at midnight UTC
-  workflow_dispatch:  # Allows manual trigger from GitHub Actions
+    - cron: "23 1 * * 0"  
+  workflow_dispatch:  
 
 jobs:
   dev: 
