@@ -10,8 +10,8 @@ copy() {
 }
 
 copy $DEV_ENV/.zshrc $HOME/.zshrc
-copy $DEV_ENV/.zsh_profile $HOME/.zsh_profile
+copy $DEV_ENV/.zsh_profile $HOME/.zprofile
 copy $DEV_ENV/.config $XDG_CONFIG_HOME
 
 source ~/.zshrc
-source ~/.zsh_profile
+source ~/.zprofile
