@@ -1,4 +1,4 @@
-name: auto-push-dev
+name: syncpush
 
 on:
   schedule:
@@ -6,31 +6,26 @@ on:
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  dev:
+  sync-dotfiles:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false  # We handle SSH authentication manually
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Configure Git
+      - name: Set up Git user
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Setup SSH Authentication
+      - name: Commit and Push Changes via HTTPS
         env:
-          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          # Set the repository's remote URL to use HTTPS with the token
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/legactitouan/dev.git
 
-      - name: Commit and Push Changes
-        run: |
+          # Add, commit, and push changes
           git add .
           git commit -m "Automated backup: $(date +'%Y-%m-%d %H:%M:%S')" || exit 0
           git push origin main
