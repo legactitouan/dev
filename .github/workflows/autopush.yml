@@ -1,26 +1,26 @@
-name: autopush  
+name: auto-push-dev
 
 on:
   schedule:
-    - cron: "29 0 * * 5"  
-  workflow_dispatch:  
+    - cron: '0 0 * * 0'  # Runs every Sunday at midnight (UTC)
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  dev: 
+  dev:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false  
+          persist-credentials: false  # We handle SSH authentication manually
 
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit and Push Changes
+      - name: Setup SSH Authentication
         env:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
@@ -28,8 +28,10 @@ jobs:
           echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          
+
+      - name: Commit and Push Changes
+        run: |
           git add .
-	  git commit -m "Automated backup: $(date +'%Y-%m-%d %H:%M:%S')" || exit 0
+          git commit -m "Automated backup: $(date +'%Y-%m-%d %H:%M:%S')" || exit 0
           git push origin main
 
