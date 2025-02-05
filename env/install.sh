@@ -17,14 +17,5 @@ copy $DEV_ENV/.zshrc $HOME/.zshrc
 copy $DEV_ENV/.zprofile $HOME/.zprofile
 copy $DEV_ENV/.config $XDG_CONFIG_HOME
 
-if [[ -d "$HOME/.config/raycast" ]]; then
-    echo "⚠️ Raycast exists in home, handling the swap..."
-    rm -rf "$DEV_ENV/.config/raycast/extensions"
-    cp -r "$HOME/.config/raycast/extensions" "$DEV_ENV/.config/raycast/extensions"
-else
-    echo "⚠️ Raycast does not exist in home, copying from DEV_ENV..."
-    cp -r "$DEV_ENV/.config/raycast" "$HOME/.config/raycast"
-fi
-
 source ~/.zshrc
 source ~/.zprofile
